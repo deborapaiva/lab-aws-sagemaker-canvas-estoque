@@ -1,4 +1,4 @@
-#Previsão de Estoque Inteligente
+# Previsão de Estoque Inteligente
 
 Este projeto visa criar um modelo de Machine Learning para prever o estoque de produtos utilizando o Amazon SageMaker Canvas. Este README detalha o processo de criação do modelo, incluindo seleção de dados, construção e treinamento do modelo, análise de resultados e previsões.
 
