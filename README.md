@@ -1,47 +1,75 @@
-# 📊 Previsão de Estoque Inteligente na AWS com [SageMaker Canvas](https://aws.amazon.com/pt/sagemaker/canvas/)
+#Previsão de Estoque Inteligente
 
-Bem-vindo ao desafio de projeto "Previsão de Estoque Inteligente na AWS com SageMaker Canvas. Neste Lab DIO, você aprenderá a usar o SageMaker Canvas para criar previsões de estoque baseadas em Machine Learning (ML). Siga os passos abaixo para completar o desafio!
+Este projeto visa criar um modelo de Machine Learning para prever o estoque de produtos utilizando o Amazon SageMaker Canvas. Este README detalha o processo de criação do modelo, incluindo seleção de dados, construção e treinamento do modelo, análise de resultados e previsões.
 
-## 📋 Pré-requisitos
-
-Antes de começar, certifique-se de ter uma conta na AWS. Se precisar de ajuda para criar sua conta, confira nosso repositório [AWS Cloud Quickstart](https://github.com/digitalinnovationone/aws-cloud-quickstart).
-
-
-## 🎯 Objetivos Deste Desafio de Projeto (Lab)
-
-![image](https://github.com/digitalinnovationone/lab-aws-sagemaker-canvas-estoque/assets/730492/72f5c21f-5562-491e-aa42-2885a3184650)
-
-- Dê um fork neste projeto e reescreva este `README.md`. Sinta-se à vontade para detalhar todo o processo de criação do seu Modelo de ML para uma "Previsão de Estoque Inteligente".
-- Para isso, siga o [passo a passo] descrito a seguir e evolua as suas habilidades em ML no-code com o Amazon SageMaker Canvas.
-- Ao concluir, envie a URL do seu repositório com a solução na plataforma da DIO.
-
-
-## 🚀 Passo a Passo
+## Passo a Passo
 
 ### 1. Selecionar Dataset
 
--   Navegue até a pasta `datasets` deste repositório. Esta pasta contém os datasets que você poderá escolher para treinar e testar seu modelo de ML. Sinta-se à vontade para gerar/enriquecer seus próprios datasets, quanto mais você se engajar, mais relevante esse projeto será em seu portfólio.
--   Escolha o dataset que você usará para treinar seu modelo de previsão de estoque.
--   Faça o upload do dataset no SageMaker Canvas.
+Dataset utilizado: dataset-1000-com-preco-promocional-e-renovacao-estoque.csv
+Informações contidas no dataset:
+ID_PRODUTO (long): Identificador único do produto
+DATA_EVENTO (date): Data do evento relacionado ao produto
+PRECO (float): Preço do produto
+FLAG_PROMOCAO (long): Indica se o produto está em promoção
+QUANTIDADE_ESTOQUE (long): Quantidade disponível em estoque
 
-### 2. Construir/Treinar
+### 2. Configuração e Limpeza dos Dados
 
--   No SageMaker Canvas, importe o dataset que você selecionou.
--   Configure as variáveis de entrada e saída de acordo com os dados.
--   Inicie o treinamento do modelo. Isso pode levar algum tempo, dependendo do tamanho do dataset.
+#### QUANTIDADE_ESTOQUE
+**Análise preditiva:** Focada na Quantidade_Estoque em um período de 9 dias, considerando feriados.
+Tratamento dos dados:
+Remoção de linhas duplicadas
+Substituição de valores ausentes em PRECO pela média dos preços
+Substituição de valores ausentes em QUANTIDADE_ESTOQUE por zero
 
-### 3. Analisar
+#### PRECO
+**Análise preditiva:** Focada na Preco em um período de 9 dias, considerando feriados com agrupamento de previsão pelos valores na coluna.
+Tratamento dos dados:
+Remoção de linhas duplicadas
+Substituição de valores ausentes em PRECO pela média dos preços
+Substituição de valores ausentes em QUANTIDADE_ESTOQUE por zero
 
--   Após o treinamento, examine as métricas de performance do modelo.
--   Verifique as principais características que influenciam as previsões.
--   Faça ajustes no modelo se necessário e re-treine até obter um desempenho satisfatório.
+### 3. Análise dos Dados
 
-### 4. Prever
+**V.1 - QUANTIDADE/DATA**
+Método de construção do modelo: Quick build (10-20 minutos)
+-Métricas obtidas:
+Avg. wQL: 0.259
+MAPE: 1.803
+WAPE: 0.378
+RMSE: 29.146
+MASE: 1.393
+-Impactos nas variáveis:
+PRECO: 34.81%
+Holiday_BR: 1.89%
+FLAG_PROMOCAO: 0%
 
--   Use o modelo treinado para fazer previsões de estoque.
--   Exporte os resultados e analise as previsões geradas.
--   Documente suas conclusões e qualquer insight obtido a partir das previsões.
+**V.2 - PRECO(MEDIA)/ITEM**
+Método de construção do modelo: Quick build (10-20 minutos)
+-Métricas obtidas:
+Avg. wQL: 0.357
+MAPE: 0.511
+WAPE: 0.536
+RMSE: 38.999
+MASE: 0.902
+-Impactos nas variáveis:
+QUANTIDADE_ESTOQUE: 52.96%
 
-## 🤔 Dúvidas?
+### 4. Previsão
+Tipo de previsão utilizada: Single prediction
+Produtos analisados: IDs 1000, 1005, 1023
 
-Esperamos que esta experiência tenha sido enriquecedora e que você tenha aprendido mais sobre Machine Learning aplicado a problemas reais. Se tiver alguma dúvida, não hesite em abrir uma issue neste repositório ou entrar em contato com a equipe da DIO.
+**V.1 - QUANTIDADE/DATA**
+<img src="img/single_prediction_resultsQTD (1).png">
+<img src="img/single_prediction_resultsQTD (2).png">
+<img src="img/single_prediction_resultsQTD (3).png">
+
+**V.2 - PRECO(MEDIA)/ITEM**
+<img src="img/single_prediction_resultsPRE.png">
+<img src="img/single_prediction_resultsPRE (1).png">
+<img src="img/single_prediction_resultsPRE (2).png">
+<img src="img/single_prediction_resultsPRE (3).png">
+<img src="img/single_prediction_resultsPRE (4).png">
+<img src="img/single_prediction_resultsPRE (5).png">
+<img src="img/single_prediction_resultsPRE (6).png">
